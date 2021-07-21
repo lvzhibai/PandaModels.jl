@@ -1,5 +1,7 @@
 *.jl.*.cov
 *.jl.cov
 *.jl.mem
-/docs/build/
+/docs/build
 /test/data/
+.DS_Store
+test/__pycache__/
