@@ -1,4 +1,4 @@
-# TODO:update it for all other pkgs, not only for PM
+
 function get_model(model_type)
     s = Symbol(model_type)
     return getfield(_PM, s)
@@ -13,7 +13,8 @@ function get_solver(optimizer::String, nl::String="ipopt", mip::String="cbc",
     end
 
     if optimizer == "ipopt"
-                solver = JuMP.optimizer_with_attributes(Ipopt.Optimizer, "print_level" => log_level, "max_cpu_time" => time_limit,
+            ipopt_tol = 1e-8
+            solver = JuMP.optimizer_with_attributes(Ipopt.Optimizer, "print_level" => log_level, "max_cpu_time" => time_limit,
                 "tol" => ipopt_tol)
     end
 
@@ -63,11 +64,10 @@ function get_solver(optimizer::String, nl::String="ipopt", mip::String="cbc",
 
 end
 
-# TODO: update the func: PM updates its func, no need to call JSON
 function load_pm_from_json(json_path)
     pm = Dict()
     open(json_path, "r") do f
-        pm = JSON.parse(f)  # parse and transform data
+        pm = JSON.parse(f)
     end
 
     for (idx, gen) in pm["gen"]
